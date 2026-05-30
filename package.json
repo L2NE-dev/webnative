@@ -1,19 +1,26 @@
 {
-  "name": "@klyro/webnative",
+  "name": "@mindw1n/webnative",
   "type": "module",
-  "version": "1.0.0",
+  "version": "1.1.1",
   "scripts": {
     "build": "esbuild src/index.ts --bundle --platform=node --format=esm --target=es2020 --outfile=index.js --banner:js=\"#!/usr/bin/env node\" --minify"
   },
   "bin": {
     "webnative": "./index.js"
   },
+  "files": [
+    "index.js",
+    "prebuilds/dist",
+    "template",
+		"readme.md"
+  ],
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "devDependencies": {
     "@eslint/js": "^9.39.2",
+    "@types/getos": "^3.0.4",
     "@types/node": "^25.9.1",
     "@typescript-eslint/eslint-plugin": "^8.54.0",
     "@typescript-eslint/parser": "^8.54.0",
@@ -22,5 +29,9 @@
     "eslint-plugin-prettier": "^5.5.5",
     "globals": "^17.2.0",
     "typescript-eslint": "^8.54.0"
+  },
+  "dependencies": {
+    "commander": "^15.0.0",
+    "getos": "^3.2.1"
   }
 }
