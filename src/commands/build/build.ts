@@ -1,3 +1,4 @@
+import { readFile } from "node:fs/promises";
 import {
   builders,
   getPlatformsDesc,
@@ -8,6 +9,9 @@ import {
   Target,
 } from "./builders.js";
 import { Command } from "commander";
+import { join } from "node:path";
+import { PackageJson } from "package-json";
+import exec from "../../utils/exec.js";
 
 export function registerBuild(program: Command) {
   program
@@ -30,7 +34,7 @@ interface BuildOptions {
 
 export default async function build(platform: Platform, target: Target) {
   if (platform == "all") {
-    if (target)
+    if (target != "all")
       throw new Error("Can't use target option with platform set to 'all'");
 
     return buildAllPlatforms();
@@ -55,16 +59,32 @@ export async function buildAllTargetsOfSpecificPlatform(
 }
 
 export async function buildSpecificTarget(
-  platform: Platform,
+  platform: SpecificPlatform,
   target: SpecificTarget,
 ) {
   const build = builders[target];
   if (!build)
     throw new Error(`Unknown target ${target}\n\n${getPlatformsDesc()}`);
 
+  await buildFullstack(platform);
+
   console.log(`Building ${platform} ${target}...`);
   await build();
   console.log(`${target} is built`);
+}
+
+export async function buildFullstack(platform: SpecificPlatform) {
+  console.log("Building fullstack first...");
+
+  const pkg = JSON.parse(
+    await readFile(join(process.cwd(), "package.json"), "utf-8"),
+  ) as PackageJson;
+
+  if (!pkg.scripts?.build) return;
+
+  await exec("npm run build", {
+    env: { ...process.env, PLATFORM: platform },
+  });
 }
 
 export async function buildAllPlatforms() {
