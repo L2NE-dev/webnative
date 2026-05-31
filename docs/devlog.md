@@ -11,5 +11,5 @@
 - Linux target only
 - Self-contained AppImage build pipeline
 - Optional Node.js backend support
-- Dev environment: Windows and Linux supported
+- Dev environment: Linux only supported
 - No Windows/macOS/mobile *targets* in v1
