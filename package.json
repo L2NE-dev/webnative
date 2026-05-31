@@ -12,7 +12,7 @@
     "index.js",
     "prebuilds/dist",
     "template",
-		"readme.md"
+    "readme.md"
   ],
   "keywords": [],
   "author": "",
@@ -22,6 +22,7 @@
     "@eslint/js": "^9.39.2",
     "@types/getos": "^3.0.4",
     "@types/node": "^25.9.1",
+    "@types/package-json": "^5.0.0",
     "@typescript-eslint/eslint-plugin": "^8.54.0",
     "@typescript-eslint/parser": "^8.54.0",
     "esbuild": "^0.27.2",
@@ -31,7 +32,6 @@
     "typescript-eslint": "^8.54.0"
   },
   "dependencies": {
-    "commander": "^15.0.0",
-    "getos": "^3.2.1"
+    "commander": "^15.0.0"
   }
 }
