@@ -3,7 +3,6 @@ import {
   builders,
   getPlatformsDesc,
   Platform,
-  platforms,
   SpecificPlatform,
   SpecificTarget,
   Target,
@@ -54,7 +53,7 @@ export async function buildSpecificPlatform(
 export async function buildAllTargetsOfSpecificPlatform(
   platform: SpecificPlatform,
 ) {
-  for (const target of platforms[platform])
+  for (const target of Object.keys(builders[platform]) as SpecificTarget[])
     await buildSpecificTarget(platform, target);
 }
 
@@ -62,7 +61,13 @@ export async function buildSpecificTarget(
   platform: SpecificPlatform,
   target: SpecificTarget,
 ) {
-  const build = builders[target];
+  const availableTargets = builders[platform] as Record<
+    string,
+    () => Promise<void>
+  >;
+
+  const build = availableTargets[target];
+
   if (!build)
     throw new Error(`Unknown target ${target}\n\n${getPlatformsDesc()}`);
 
@@ -74,7 +79,7 @@ export async function buildSpecificTarget(
 }
 
 export async function buildFullstack(platform: SpecificPlatform) {
-  console.log("Building fullstack first...");
+  console.log(`Building fullstack for ${platform}...`);
 
   const pkg = JSON.parse(
     await readFile(join(process.cwd(), "package.json"), "utf-8"),
@@ -88,6 +93,6 @@ export async function buildFullstack(platform: SpecificPlatform) {
 }
 
 export async function buildAllPlatforms() {
-  for (const platform of Object.keys(platforms) as SpecificPlatform[])
+  for (const platform of Object.keys(builders) as SpecificPlatform[])
     await buildSpecificPlatform(platform, "all");
 }
