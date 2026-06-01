@@ -1,24 +1,32 @@
-import buildAppImage from "./linux/self-contained.js";
+import buildLinuxAppImage from "./linux/appimage.js";
+import buildWindowsZip from "./windows/zip.js";
 
 export const builders = {
-  appimage: buildAppImage,
-} as const;
-
-export const platforms = {
-  linux: ["appimage"],
+  linux: {
+    appimage: buildLinuxAppImage,
+  },
+  windows: {
+    zip: buildWindowsZip,
+  },
 } as const;
 
 export function getPlatformsDesc() {
   return (
     "Available platforms:\n" +
-    Object.entries(platforms)
-      .map(([key, value]) => `  ${key}, targets: ${value.join(", ")}`)
+    Object.entries(builders)
+      .map(
+        ([platform, targets]) =>
+          `  ${platform}, targets: ${Object.keys(targets).join(", ")}`,
+      )
       .join("\n")
   );
 }
 
-export type Platform = keyof typeof platforms | "all";
-export type SpecificPlatform = Exclude<Platform, "all">;
+export type SpecificPlatform = keyof typeof builders;
+export type Platform = SpecificPlatform | "all";
 
-export type Target = keyof typeof builders | "all";
-export type SpecificTarget = Exclude<Target, "all">;
+export type SpecificTarget = {
+  [P in SpecificPlatform]: keyof (typeof builders)[P];
+}[SpecificPlatform];
+
+export type Target = SpecificTarget | "all";
