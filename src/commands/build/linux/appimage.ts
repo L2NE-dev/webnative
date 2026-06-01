@@ -6,7 +6,7 @@ import packagePath from "../../../utils/package-path.js";
 import { downloadAppImageTool } from "../../../utils/appimagetool.js";
 import { cachePath } from "../../../utils/cache-path.js";
 import { getConfig } from "../../../utils/config.js";
-import downloadNode from "../../../utils/node.js";
+import { downloadLinuxNode } from "../../../utils/node.js";
 
 const cwd = process.cwd();
 
@@ -20,9 +20,9 @@ const paths = {
   dist: join(cwd, "dist"),
 };
 
-export default async function buildAppImage() {
+export default async function buildLinuxAppImage() {
   await downloadAppImageTool(paths.appImageTool);
-  await downloadNode(paths.node);
+  await downloadLinuxNode(paths.node);
   await prepareBin();
   await mkdir(paths.dist, { recursive: true });
 
@@ -31,7 +31,6 @@ export default async function buildAppImage() {
   );
 
   await chmod(join(paths.dist, "linux-appimage"), 0o755);
-
   await cleanup();
 }
 
