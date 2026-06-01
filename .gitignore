@@ -2,3 +2,7 @@ node_modules
 prebuilds/*
 !prebuilds/dist
 /index.js
+src/core/windows/packages
+src/core/windows/.vs
+src/core/windows/windows/
+src/core/windows/*.user
