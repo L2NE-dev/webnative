@@ -39,11 +39,13 @@ webnative handles the switching — you just write your app.
 
 | Platform | Status |
 |----------|--------|
-| Linux (AppImage) | ✅ v1 |
-| Windows | 🔜 v2 |
+| Linux (self-contained) | ✅ v1 |
+| Windows (self-contained) | ✅ v2 |
 | Android | 🔜 v3 |
-| iOS | 🔜 v4 |
-| macOS | 🔜 v5 |
+| Windows (setup) | 🔜 v4 |
+| Linux (flatpak | 🔜 v5 |
+| iOS | 🔜 v6 |
+| macOS | 🔜 v7 |
 
 ## Requirements
 
