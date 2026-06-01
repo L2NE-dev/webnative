@@ -7,9 +7,16 @@
 - The cli tool also should be able to create self-contained apps, but in this case the bundle size don't matter
 - Always try to build natively. If not possible, fall back to Docker. If Docker is not installed, attempt to install it with user permission. If that fails, explain clearly why Docker is needed and how to install it manually.
 
-## v1 (status: ongoing development)
-- Linux target only
-- Self-contained AppImage build pipeline
-- Optional Node.js backend support
-- Dev environment: Linux only supported
+## ⏳ means that the feature is under development
+
+## v1 (status: partially implemented)
+- ✅ Linux target only
+- ✅ Self-contained AppImage build pipeline
+- ⏳ Optional Node.js backend support
+- ✅ Dev environment: Linux only
 - No Windows/macOS/mobile *targets* in v1
+
+## v2 (status: implemented)
+- ✅ Windows and Linux self-contained targets
+- ✅ Dev environment: Linux only
+- No macOS/mobile *targets* in v2
