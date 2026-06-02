@@ -9,6 +9,7 @@
     "webnative": "./index.js"
   },
   "files": [
+		"LICENSE",
     "index.js",
     "prebuilds/dist",
     "template",
