@@ -32,7 +32,7 @@ webnative build linux
 ## How it works
 
 On desktop, your frontend communicates with a local Node.js backend via IPC.
-On mobile, the same frontend code talks to a remote API or on-device storage.
+On mobile, the same frontend code talks to a remote API or on-device apis.
 webnative handles the switching — you just write your app.
 
 ## Targets
@@ -41,12 +41,13 @@ webnative handles the switching — you just write your app.
 |----------|--------|
 | Linux (self-contained) | ✅ v1 |
 | Windows (self-contained) | ✅ v2 |
-| Android | 🔜 v3 |
+| Android | ✅ v3 |
 | Windows (setup) | 🔜 v4 |
-| Linux (flatpak | 🔜 v5 |
+| Linux (flatpak) | 🔜 v5 |
 | iOS | 🔜 v6 |
 | macOS | 🔜 v7 |
 
 ## Requirements
 
 - Node.js 22+
+- Docker (sometimes needed for cross-compilation)
