@@ -1,7 +1,7 @@
 {
   "name": "@mindw1n/webnative",
   "type": "module",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "scripts": {
     "build": "esbuild src/index.ts --bundle --platform=node --format=esm --target=es2020 --outfile=index.js --banner:js=\"#!/usr/bin/env node\" --minify"
   },
