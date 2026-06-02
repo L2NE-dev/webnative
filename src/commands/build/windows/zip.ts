@@ -1,17 +1,10 @@
-import {
-  mkdir,
-  copyFile,
-  cp,
-  readFile,
-  writeFile,
-  readdir,
-} from "node:fs/promises";
-import { join, relative } from "node:path";
+import { mkdir, copyFile, cp } from "node:fs/promises";
+import { join } from "node:path";
 import cleanup from "../../../utils/cleanup.js";
 import packagePath from "../../../utils/package-path.js";
 import { cachePath } from "../../../utils/cache-path.js";
 import { downloadWindowsNode } from "../../../utils/node.js";
-import JSZip from "jszip";
+import { zip } from "../../../utils/zip.js";
 
 const cwd = process.cwd();
 
@@ -48,27 +41,4 @@ async function prepareTmp() {
   await copyFile(paths.node, join(paths.bin, "node.exe"));
   await cp(paths.public, join(paths.bin, "public"), { recursive: true });
   await cp(paths.backend, join(paths.bin, "backend"), { recursive: true });
-}
-
-async function zip(source: string, output: string) {
-  const jszip = new JSZip();
-  await addDirectory(jszip, source, source);
-  const buffer = await jszip.generateAsync({
-    type: "nodebuffer",
-    compression: "DEFLATE",
-  });
-  await writeFile(output, buffer);
-}
-
-async function addDirectory(zip: JSZip, source: string, root: string) {
-  const entries = await readdir(source, { withFileTypes: true });
-  for (const entry of entries) {
-    const fullPath = join(source, entry.name);
-    if (entry.isDirectory()) {
-      await addDirectory(zip, fullPath, root);
-    } else {
-      const content = await readFile(fullPath);
-      zip.file(relative(root, fullPath), content);
-    }
-  }
 }

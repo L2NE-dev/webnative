@@ -1,3 +1,4 @@
+import buildAndroidApk from "./android/apk.js";
 import buildLinuxAppImage from "./linux/appimage.js";
 import buildWindowsZip from "./windows/zip.js";
 
@@ -7,6 +8,9 @@ export const builders = {
   },
   windows: {
     zip: buildWindowsZip,
+  },
+  android: {
+    apk: buildAndroidApk,
   },
 } as const;
 

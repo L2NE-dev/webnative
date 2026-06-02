@@ -4,6 +4,7 @@ import { join } from "node:path";
 let config: WebnativeConfig | undefined = undefined;
 
 interface WebnativeConfig {
+  id: `${string}.${string}.${string}`;
   name: string;
   icon?: string;
   categories?: string[];
