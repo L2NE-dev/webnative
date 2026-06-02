@@ -8,6 +8,8 @@
 Build desktop and mobile applications using web technologies you already know.
 No cross-compilation or config hell. No manual dependencies. Just you and your beautiful app.
 
+![usecase](docs/screencast.mp4)
+
 ## Why webnative?
 
 Most cross-platform frameworks make you choose — either great DX or great results.
