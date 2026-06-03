@@ -12,6 +12,7 @@
     "LICENSE",
     "index.js",
     "prebuilds/dist",
+		"docs",
     "template",
     "readme.md"
   ],
