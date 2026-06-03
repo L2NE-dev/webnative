@@ -50,7 +50,7 @@ async function prepareBin() {
     await copyFile(join(cwd, config.icon), join(paths.bin, "app.png"));
 
   await copyFile(
-    join(paths.prebuilds, "linux_self_contained"),
+    join(paths.prebuilds, "linux"),
     join(paths.bin, "usr/bin/linux"),
   );
 

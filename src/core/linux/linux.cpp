@@ -17,6 +17,7 @@ int backPipe[2], forthPipe[2];
 WebKitWebView *web_view;
 
 std::string getAppDir() {
+	if (getenv("FLATPAK_ID")) return "/app";
 	const char* appDir = getenv("APPDIR");
 	if (appDir) return std::string(appDir);
 	char buf[4096];
@@ -27,6 +28,23 @@ std::string getAppDir() {
 		return path.substr(0, path.find_last_of("/"));
 	}
 	return ".";
+}
+
+std::string findNode(const std::string &appDir) {
+	std::string localNode = appDir + "/bin/node";
+	if (access(localNode.c_str(), X_OK) == 0) return localNode;
+
+	const char* candidates[] = {
+		"/usr/bin/node",
+		"/usr/local/bin/node",
+		"/opt/homebrew/bin/node",
+		nullptr
+	};
+	for (int i = 0; candidates[i]; i++) {
+		if (access(candidates[i], X_OK) == 0) return std::string(candidates[i]);
+	}
+
+	return "";
 }
 
 void sendSignal(const char *script) {
@@ -93,18 +111,22 @@ int main(int argc, char **argv) {
 	if (pipe(backPipe) == -1 || pipe(forthPipe) == -1) return -1;
 
 	std::string appDir = getAppDir();
+	std::string nodePath = findNode(appDir);
 
-	pid_t pid = fork();
-	if (pid == -1) return -1;
-
-	if (pid == 0) {
-		std::string backendPath = appDir + "/usr/bin/backend/index.js";
-		execlp("node", "node", backendPath.c_str(),
-			std::to_string(forthPipe[0]).c_str(),
-			std::to_string(backPipe[1]).c_str(),
-			nullptr);
-		std::cerr << "Failed to start backend" << std::endl;
-		return -1;
+	if (!nodePath.empty()) {
+		pid_t pid = fork();
+		if (pid == -1) return -1;
+		if (pid == 0) {
+			std::string backendPath = appDir + "/usr/bin/backend/index.js";
+			execlp(nodePath.c_str(), nodePath.c_str(), backendPath.c_str(),
+				std::to_string(forthPipe[0]).c_str(),
+				std::to_string(backPipe[1]).c_str(),
+				nullptr);
+			std::cerr << "Failed to start backend" << std::endl;
+			return -1;
+		}
+	} else {
+		std::cerr << "Node.js not found, starting in frontend-only mode" << std::endl;
 	}
 
 	GtkApplication *app = gtk_application_new(env::id, G_APPLICATION_DEFAULT_FLAGS);
