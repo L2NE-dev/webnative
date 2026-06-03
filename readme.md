@@ -11,7 +11,7 @@ No cross-compilation or config hell. No manual dependencies. Just you and your b
 ## Why webnative?
 
 Most cross-platform frameworks make you choose — either great DX or great results.
-Electron ships Chromium (150MB+). Tauri requires Rust. Capacitor is mobile-only.
+Electron ships Chromium (150MB+). Tauri requires Rust. Capacitor mostly targets mobile.
 
 webnative is different:
 
