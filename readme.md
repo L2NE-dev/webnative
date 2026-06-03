@@ -53,3 +53,17 @@ webnative handles the switching — you just write your app.
 
 - Node.js 22+
 - Docker (sometimes needed for cross-compilation)
+
+## Contributing to webnative
+
+webnative is actively looking for contributors!
+If you're interested in helping out, you can:
+
+- Pick up an open issue or suggest a new one
+- Help bring a new platform to life
+- Improve docs or examples
+
+To get started, fork the repo, make your changes, and open a PR.
+For bigger changes, open an issue first so we can discuss the direction.
+
+All skill levels welcome — if you're curious about how it works, just reach out.
