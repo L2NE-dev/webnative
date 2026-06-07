@@ -2,36 +2,42 @@
 #include "globals.hpp"
 
 void forkNode() {
-	auto& config = getConfig();
+  auto& config = getConfig();
 
-	if (config["nodePath"].is_null()) {
-		std::cerr << "Node.js not found, starting in frontend-only mode" << std::endl;
-		return;
-	}
+  if (config["nodePath"].is_null()) {
+    std::cerr << "Node.js not found, starting in frontend-only mode" << std::endl;
+    return;
+  }
 
-	pid_t pid = fork();
-	if (pid == -1) std::exit(1);
+  std::string backendPath = config.value("appDir", ".") + "/usr/bin/backend/index.js";
 
-	if (pid != 0) {
-		close(Globals::pipe[1]);
-		Globals::nodePid = pid;
-		return;
-	}
+  if (access(backendPath.c_str(), F_OK) != 0) {
+    std::cerr << "Backend not found, starting in frontend-only mode" << std::endl;
+    return;
+  }
 
-	close(Globals::pipe[0]);
-	std::string nodePath = Globals::config["nodePath"].get<std::string>();
-	std::string backendPath = Globals::config.value("appDir", ".") + "/usr/bin/backend/index.js";
+  pid_t pid = fork();
+  if (pid == -1) std::exit(1);
 
-	execlp(
-		nodePath.c_str(),
-		nodePath.c_str(),
-		backendPath.c_str(),
-		std::to_string(Globals::pipe[1]).c_str(),
-		nullptr
-	);
+  if (pid != 0) {
+    close(Globals::pipe[1]);
+    Globals::nodePid = pid;
+    return;
+  }
 
-	std::cerr << "Failed to start backend" << std::endl;
-	std::exit(1);
+  close(Globals::pipe[0]);
+  std::string nodePath = Globals::config["nodePath"].get<std::string>();
+
+  execlp(
+    nodePath.c_str(),
+    nodePath.c_str(),
+    backendPath.c_str(),
+    std::to_string(Globals::pipe[1]).c_str(),
+    nullptr
+  );
+
+  std::cerr << "Failed to start backend" << std::endl;
+  std::exit(1);
 }
 
 void terminateNode() {
