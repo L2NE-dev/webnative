@@ -9,19 +9,16 @@ void forkNode() {
         return;
     }
 
-    std::string appDirStr = config.value("appDir", ".");
-    std::string backendPathStr = appDirStr + "\\usr\\bin\\backend\\index.js";
+    std::wstring appDir = toWString(config.value("appDir", "."));
+    std::wstring backendPath = appDir + L"\\usr\\bin\\backend\\index.js";
 
-    if (GetFileAttributesA(backendPathStr.c_str()) == INVALID_FILE_ATTRIBUTES) {
+    if (GetFileAttributesW(backendPath.c_str()) == INVALID_FILE_ATTRIBUTES) {
         std::cerr << "Backend not found, starting in frontend-only mode" << std::endl;
         return;
     }
 
-    std::string nodePathStr = config["nodePath"].get<std::string>();
-    std::wstring nodePath(nodePathStr.begin(), nodePathStr.end());
-    std::wstring backendPath(backendPathStr.begin(), backendPathStr.end());
+    std::wstring nodePath = toWString(config["nodePath"].get<std::string>());
     std::wstring pipeHandle = std::to_wstring((size_t)Globals::pipe[1]);
-
     std::wstring cmdLine = L"\"" + nodePath + L"\" \"" + backendPath + L"\" " + pipeHandle;
 
     STARTUPINFOW si = { sizeof(STARTUPINFOW) };

@@ -56,8 +56,7 @@ void applyConfigToWindow(HWND hwnd, const nlohmann::json& config) {
 }
 
 void createWebview(HWND hwnd, const nlohmann::json& config) {
-    std::string appDirStr = config.value("appDir", ".");
-    std::wstring appDir(appDirStr.begin(), appDirStr.end());
+    std::wstring appDir = toWString(config.value("appDir", "."));
     std::wstring dataDir = appDir + L"\\webview2_data";
 
     CreateCoreWebView2EnvironmentWithOptions(
@@ -102,7 +101,7 @@ void createWebview(HWND hwnd, const nlohmann::json& config) {
 }
 
 void loadHtmlToWebview(const std::wstring& appDir) {
-    std::wstring publicPath = L"file:///" + appDir + L"\\usr\\bin\\public\\index.html";
+    std::wstring publicPath = L"file:///" + appDir + L"\\public\\index.html";
     std::replace(publicPath.begin(), publicPath.end(), L'\\', L'/');
     Globals::webview->Navigate(publicPath.c_str());
 }

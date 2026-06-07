@@ -8,12 +8,12 @@ nlohmann::json& getConfig(const std::string& name) {
 	std::wstring configPathW = appDir + L"\\" + std::wstring(name.begin(), name.end());
 	std::string configPath(configPathW.begin(), configPathW.end());
 
-	std::ifstream file(configPath);
+	std::ifstream file(configPathW);
 	if (!file.is_open()) throw std::runtime_error("Could not open config file: " + configPath);
 
 	file >> Globals::config;
-	Globals::config["appDir"] = std::string(appDir.begin(), appDir.end());
-	Globals::config["nodePath"] = findNode(appDir);
+	Globals::config["appDir"] = toUtf8(appDir);
+	Globals::config["nodePath"] = toUtf8(findNode(appDir));
 
 	return Globals::config;
 }
