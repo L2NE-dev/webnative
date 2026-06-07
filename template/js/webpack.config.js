@@ -11,6 +11,7 @@ if (!platform) {
 }
 
 export default {
+	mode: "production",
   entry: "./app/index.js",
   output: {
     path: join(__dirname, "app/public"),

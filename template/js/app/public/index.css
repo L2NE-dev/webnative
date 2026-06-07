@@ -55,9 +55,18 @@ h2 {
   right: 24px;
   font-size: 20px;
   font-weight: 400;
-  color: #3d3d52;
+  color: #707089;
 }
 
-h2 span {
+span {
   color: #7c6fff;
+}
+
+.backend-status {
+  position: fixed;
+  bottom: 20px;
+  left: 24px;
+  font-size: 20px;
+  font-weight: 400;
+  color: #707089;
 }

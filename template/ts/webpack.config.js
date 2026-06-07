@@ -11,6 +11,7 @@ if (!platform) {
 }
 
 export default {
+	mode: "production",
   entry: "./app/index.ts",
   output: {
     path: join(__dirname, "app/public"),

@@ -1,5 +1,10 @@
 {
-  "name": "My App",
+	"env": "production",
+  "name": "Webnative app",
   "icon": "app/icon.png",
-  "categories": ["Utility"]
+  "categories": ["Utility"],
+	"window": {
+		"width": 1366,
+		"height": 768
+	}
 }
