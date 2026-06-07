@@ -10,6 +10,8 @@ No cross-compilation or config hell. No manual dependencies. Just you and your b
 
 ![Screenshot](docs/screenshot.png)
 
+[Watch the showcase on YouTube](https://www.youtube.com/watch?v=BdnwlwOvEts)
+
 ## Why webnative?
 
 Most cross-platform frameworks make you choose — either great DX or great results.
