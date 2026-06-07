@@ -56,7 +56,7 @@ async function preparePackageJson(typescript: boolean, pkgPath: string) {
   pkg.scripts = {
     ...pkg.scripts,
     "build:frontend": "webpack",
-    "build:backend": `esbuild app/backend/index.${typescript ? "ts" : "js"} --bundle --platform=node --format=esm --outfile=app/backend/dist/index.js`,
+    "build:backend": `esbuild app/backend/index.${typescript ? "ts" : "js"} --bundle --platform=node --format=cjs --outfile=app/backend/dist/index.js --minify`,
     build: "npm run build:frontend && npm run build:backend",
   };
 
@@ -65,6 +65,6 @@ async function preparePackageJson(typescript: boolean, pkgPath: string) {
 }
 
 async function installDependencies(typescript: boolean, targetPath: string) {
-  const deps = `webpack webpack-cli esbuild${typescript ? " ts-loader typescript" : ""}`;
+  const deps = `webpack webpack-cli esbuild @mindw1n/webnative-core cors express${typescript ? " ts-loader typescript @types/cors @types/express" : ""}`;
   await exec(`npm install ${deps} --save-dev`, { cwd: targetPath });
 }
