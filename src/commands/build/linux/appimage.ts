@@ -1,4 +1,11 @@
-import { mkdir, copyFile, cp, writeFile, chmod } from "node:fs/promises";
+import {
+  mkdir,
+  copyFile,
+  cp,
+  writeFile,
+  chmod,
+  readFile,
+} from "node:fs/promises";
 import { join } from "node:path";
 import exec from "../../../utils/exec.js";
 import cleanup from "../../../utils/cleanup.js";
@@ -22,7 +29,14 @@ const paths = {
 
 export default async function buildLinuxAppImage() {
   await downloadAppImageTool(paths.appImageTool);
-  await downloadLinuxNode(paths.node);
+
+  if (
+    await readFile(join(paths.backend, "index.js"), "utf8")
+      .then((content) => content.length)
+      .catch()
+  )
+    await downloadLinuxNode(paths.node);
+
   await prepareBin();
   await mkdir(paths.dist, { recursive: true });
 
@@ -54,6 +68,11 @@ async function prepareBin() {
     join(paths.bin, "usr/bin/linux"),
   );
 
+  await copyFile(
+    join(cwd, "webnative.json"),
+    join(paths.bin, "usr/bin/webnative.json"),
+  );
+
   await chmod(join(paths.bin, "usr/bin/linux"), 0o755);
 
   await cp(paths.public, join(paths.bin, "usr/bin/public"), {
@@ -64,6 +83,12 @@ async function prepareBin() {
     recursive: true,
   });
 
-  await copyFile(paths.node, join(paths.bin, "usr/bin/node"));
-  await chmod(join(paths.bin, "usr/bin/node"), 0o755);
+  if (
+    await readFile(join(paths.backend, "index.js"), "utf8")
+      .then((content) => content.length)
+      .catch()
+  ) {
+    await copyFile(paths.node, join(paths.bin, "usr/bin/node"));
+    await chmod(join(paths.bin, "usr/bin/node"), 0o755);
+  }
 }
