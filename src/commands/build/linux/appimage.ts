@@ -4,7 +4,7 @@ import {
   cp,
   writeFile,
   chmod,
-  readFile,
+  access,
 } from "node:fs/promises";
 import { join } from "node:path";
 import exec from "../../../utils/exec.js";
@@ -27,15 +27,13 @@ const paths = {
   dist: join(cwd, "dist"),
 };
 
+let backendFound = false;
+
 export default async function buildLinuxAppImage() {
+  await findBackend();
   await downloadAppImageTool(paths.appImageTool);
 
-  if (
-    await readFile(join(paths.backend, "index.js"), "utf8")
-      .then((content) => content.length)
-      .catch()
-  )
-    await downloadLinuxNode(paths.node);
+  if (backendFound) await downloadLinuxNode(paths.node);
 
   await prepareBin();
   await mkdir(paths.dist, { recursive: true });
@@ -46,6 +44,15 @@ export default async function buildLinuxAppImage() {
 
   await chmod(join(paths.dist, "linux-appimage"), 0o755);
   await cleanup();
+}
+
+async function findBackend() {
+  try {
+    await access(join(paths.backend, "index.js"));
+    backendFound = true;
+  } catch {
+    console.log("Backend not found, Node.js will not be in the output");
+  }
 }
 
 async function prepareBin() {
@@ -79,15 +86,11 @@ async function prepareBin() {
     recursive: true,
   });
 
-  await cp(paths.backend, join(paths.bin, "usr/bin/backend"), {
-    recursive: true,
-  });
+  if (backendFound) {
+    await cp(paths.backend, join(paths.bin, "usr/bin/backend"), {
+      recursive: true,
+    });
 
-  if (
-    await readFile(join(paths.backend, "index.js"), "utf8")
-      .then((content) => content.length)
-      .catch()
-  ) {
     await copyFile(paths.node, join(paths.bin, "usr/bin/node"));
     await chmod(join(paths.bin, "usr/bin/node"), 0o755);
   }
