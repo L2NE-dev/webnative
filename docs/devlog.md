@@ -9,10 +9,10 @@
 
 ## ⏳ means that the feature is under development
 
-## v1 (status: partially implemented)
+## v1 (status: implemented)
 - ✅ Linux target only
 - ✅ Self-contained AppImage build pipeline
-- ⏳ Optional Node.js backend support
+- ✅ Optional Node.js backend support
 - ✅ Dev environment: Linux only
 - No Windows/macOS/mobile *targets* in v1
 
