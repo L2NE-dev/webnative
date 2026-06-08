@@ -2,7 +2,7 @@ import { spawn } from "node:child_process";
 
 export default function exec(
   command: string,
-  options?: { env?: NodeJS.ProcessEnv; cwd?: string; ignore: boolean },
+  options?: { env?: NodeJS.ProcessEnv; cwd?: string; ignore?: boolean },
 ): Promise<void> {
   return new Promise((resolve, reject) => {
     const [cmd, ...args] = command.split(" ");
