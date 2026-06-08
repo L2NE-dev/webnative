@@ -1,9 +1,9 @@
-import { createWriteStream } from "fs";
 import { randomBytes, timingSafeEqual } from "crypto";
 import express from "express";
 import cors from "cors";
+import { createPipe } from "./api";
 
-const pipe = createWriteStream("", { fd: Number(process.argv[2]) });
+const pipe = await createPipe();
 const key = randomBytes(32).toString("hex");
 
 const app = express();

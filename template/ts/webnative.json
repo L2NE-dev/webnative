@@ -1,4 +1,5 @@
 {
+	"id": "app.webnative.example",
 	"env": "production",
   "name": "Webnative app",
   "icon": "app/icon.png",
