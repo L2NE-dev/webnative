@@ -10,49 +10,51 @@ if (!platform) {
   exit(1);
 }
 
-export default [
-	{
-		mode: "production",
-		entry: "./app/index.ts",
-		output: {
-			path: join(__dirname, "app/public"),
-			filename: "index.js",
-		},
-		resolve: {
-			extensions: [".ts", ".js"],
-			alias: {
-				"./api": join(__dirname, `app/api/${platform}.ts`),
-			},
-		},
-		module: {
-			rules: [{
-				test: /\.ts$/,
-				use: "ts-loader",
-				exclude: /node_modules/,
-			}],
+const frontend = {
+	mode: "production",
+	entry: "./app/index.ts",
+	output: {
+		path: join(__dirname, "app/public"),
+		filename: "index.js",
+	},
+	resolve: {
+		extensions: [".ts", ".js"],
+		alias: {
+			"./api": join(__dirname, `app/api/${platform}.ts`),
 		},
 	},
-	{
-		mode: 'production',
-		target: 'node',
-		entry: './app/backend/index.ts',
-		output: {
-			filename: 'index.js',
-			path: join(__dirname, 'app/backend/dist'),
-			libraryTarget: 'commonjs2',
+	module: {
+		rules: [{
+			test: /\.ts$/,
+			use: "ts-loader",
+			exclude: /node_modules/,
+		}],
+	},
+}
+
+const backend = {
+	mode: 'production',
+	target: 'node',
+	entry: './app/backend/index.ts',
+	output: {
+		filename: 'index.js',
+		path: join(__dirname, 'app/backend/dist'),
+		libraryTarget: 'commonjs2',
+	},
+	resolve: {
+		extensions: [".ts", ".js"],
+		alias: {
+			'./api': join(__dirname, `app/backend/api/${platform}.ts`),
 		},
-		resolve: {
-			extensions: [".ts", ".js"],
-			alias: {
-				'./api': join(__dirname, `app/backend/api/${platform}.ts`),
-			},
-		},
-		module: {
-			rules: [{
-				test: /\.ts$/,
-				use: "ts-loader",
-				exclude: /node_modules/,
-			}],
-		},
-	}
-];
+	},
+	module: {
+		rules: [{
+			test: /\.ts$/,
+			use: "ts-loader",
+			exclude: /node_modules/,
+		}],
+	},
+}
+
+const isMobile = platform === 'android' || platform === 'ios';
+export default isMobile ? [frontend] : [frontend, backend];
