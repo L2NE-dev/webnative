@@ -119,7 +119,7 @@ void onApiCall(ICoreWebView2* sender, ICoreWebView2WebMessageReceivedEventArgs* 
     wil::unique_cotaskmem_string message;
     args->TryGetWebMessageAsString(&message);
     std::wstring wdata(message.get());
-    std::string data(wdata.begin(), wdata.end());
+    std::string data = toUtf8(wdata);
     handleApiCall(sender, data);
 }
 

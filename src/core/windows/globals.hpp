@@ -11,6 +11,8 @@ namespace Globals {
 	extern wil::com_ptr<ICoreWebView2> webview;
 	extern wil::com_ptr<ICoreWebView2Controller> controller;
 	extern HWND hwnd;
-	extern HANDLE pipe[2];
 	extern DWORD nodePid;
+
+	extern HANDLE pipe;
+	extern std::wstring pipeName;
 }
