@@ -1,11 +1,4 @@
-import {
-  mkdir,
-  copyFile,
-  cp,
-  writeFile,
-  chmod,
-  access,
-} from "node:fs/promises";
+import { mkdir, copyFile, cp, writeFile, chmod } from "node:fs/promises";
 import { join } from "node:path";
 import exec from "../../../utils/exec.js";
 import cleanup from "../../../utils/cleanup.js";
@@ -14,6 +7,7 @@ import { downloadAppImageTool } from "../../../utils/appimagetool.js";
 import { cachePath } from "../../../utils/cache-path.js";
 import { getConfig } from "../../../utils/config.js";
 import { downloadLinuxNode } from "../../../utils/node.js";
+import findBackend from "../../../utils/backend.js";
 
 const cwd = process.cwd();
 
@@ -27,13 +21,11 @@ const paths = {
   dist: join(cwd, "dist"),
 };
 
-let backendFound = false;
-
 export default async function buildLinuxAppImage() {
   await findBackend();
   await downloadAppImageTool(paths.appImageTool);
 
-  if (backendFound) await downloadLinuxNode(paths.node);
+  if (await findBackend()) await downloadLinuxNode(paths.node);
 
   await prepareBin();
   await mkdir(paths.dist, { recursive: true });
@@ -44,15 +36,6 @@ export default async function buildLinuxAppImage() {
 
   await chmod(join(paths.dist, "linux-appimage"), 0o755);
   await cleanup();
-}
-
-async function findBackend() {
-  try {
-    await access(join(paths.backend, "index.js"));
-    backendFound = true;
-  } catch {
-    console.log("Backend not found, Node.js will not be in the output");
-  }
 }
 
 async function prepareBin() {
@@ -86,7 +69,7 @@ async function prepareBin() {
     recursive: true,
   });
 
-  if (backendFound) {
+  if (await findBackend()) {
     await cp(paths.backend, join(paths.bin, "usr/bin/backend"), {
       recursive: true,
     });

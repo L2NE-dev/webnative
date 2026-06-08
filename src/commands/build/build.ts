@@ -11,6 +11,7 @@ import { Command } from "commander";
 import { join } from "node:path";
 import { PackageJson } from "package-json";
 import exec from "../../utils/exec.js";
+import findBackend from "../../utils/backend.js";
 
 export function registerBuild(program: Command) {
   program
@@ -72,6 +73,11 @@ export async function buildSpecificTarget(
     throw new Error(`Unknown target ${target}\n\n${getPlatformsDesc()}`);
 
   await buildFullstack(platform);
+
+  const found = await findBackend();
+
+  if (!found)
+    console.log("Backend not found, Node.js will not be in the output");
 
   console.log(`Building ${platform} ${target}...`);
   await build();
