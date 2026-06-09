@@ -5,6 +5,9 @@ export function getPlatform() {
 }
 
 export async function getBackendStatus() {
+	const base = 'Backend status: <span>';
+	let status = "";
+
 	try {
 		const data = await authenticate();
 
@@ -16,11 +19,13 @@ export async function getBackendStatus() {
       }
     }).then((res) => res.json());
 
-		if (response.error) return "unauthorized";
+		if (response.error) status = "unauthorized";
 
-		return "online";
+		status = "online";
 	} catch (e) {
 		console.error(e);
-		return "offline";
+		status = "offline";
 	}
+
+	return base + status + "</span>";
 }

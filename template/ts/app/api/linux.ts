@@ -5,22 +5,27 @@ export function getPlatform() {
 }
 
 export async function getBackendStatus() {
-	try {
-		const data = await authenticate();
+  const base = "Backend status: <span>";
+  let status = "";
 
-		const response = await fetch(`http://127.0.0.1:${data.port}`, {
+  try {
+    const data = await authenticate();
+
+    const response = await fetch(`http://127.0.0.1:${data.port}`, {
       method: "GET",
       headers: {
         "X-API-Key": data.key,
-        "Content-Type": "application/json"
-      }
+        "Content-Type": "application/json",
+      },
     }).then((res) => res.json());
 
-		if (response.error) return "unauthorized";
+    if (response.error) status = "unauthorized";
 
-		return "online";
-	} catch (e) {
-		console.error(e);
-		return "offline";
-	}
+    status = "online";
+  } catch (e) {
+    console.error(e);
+    status = "offline";
+  }
+
+  return base + status + "</span>";
 }

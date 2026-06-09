@@ -3,5 +3,5 @@ export function getPlatform() {
 }
 
 export async function getBackendStatus() {
-	return "unavailable";
+	return "";
 }
