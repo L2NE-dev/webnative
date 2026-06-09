@@ -12,6 +12,8 @@ const paths = {
   config: join(cwd, "dist/tmp/capacitor.config.json"),
   dist: join(cwd, "dist"),
   tmp: join(cwd, "dist/tmp"),
+  nodeModules: join(cwd, "node_modules"),
+  package: join(cwd, "package.json"),
 };
 
 export default async function buildAndroidApk() {
@@ -42,6 +44,8 @@ async function generateCapacitorConfig() {
 async function runDockerBuild() {
   await exec(
     `docker run --rm \
+		-v ${paths.nodeModules}:/project/node_modules \
+		-v ${paths.package}:/project/package.json \
     -v webnative-android-cache:/root \
     -v ${paths.public}:/project/public \
     -v ${paths.config}:/project/capacitor.config.json \
