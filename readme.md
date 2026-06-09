@@ -1,5 +1,5 @@
-[![github](https://img.shields.io/github/stars/kl1ro/webnative?style=flat)](https://github.com/kl1ro/webnative)
 [![npm](https://img.shields.io/npm/v/@mindw1n/webnative)](https://www.npmjs.com/package/@mindw1n/webnative)
+[![github](https://img.shields.io/github/stars/kl1ro/webnative?style=flat)](https://github.com/kl1ro/webnative)
 [![license](https://img.shields.io/github/license/mindw1n/webnative)](LICENSE)
 
 # webnative
