@@ -17,7 +17,7 @@ const paths = {
 };
 
 export default async function buildAndroidApk() {
-  await checkDocker();
+  await checkDocker("android");
   await mkdir(paths.tmp, { recursive: true });
   await generateCapacitorConfig();
   await runDockerBuild();
