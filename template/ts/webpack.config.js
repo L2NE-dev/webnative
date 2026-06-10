@@ -57,4 +57,4 @@ const backend = {
 }
 
 const isMobile = platform === 'android' || platform === 'ios';
-export default isMobile ? [frontend] : [frontend, backend];
+export default isMobile || !existsSync(backendSrc) ? [frontend] : [frontend, backend];
