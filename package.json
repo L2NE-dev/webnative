@@ -16,10 +16,18 @@
     "template",
     "readme.md"
   ],
-  "keywords": [],
-  "author": "",
+	"keywords": ["desktop", "webview", "cross-platform", "android", "linux", "windows", "framework", "native"],
+  "author": "mindw1n",
   "license": "MIT",
-  "description": "",
+  "description": "Build desktop and mobile apps with web technologies — powered by native WebView components and Node.js",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/kl1ro/webnative.git"
+	},
+	"homepage": "https://github.com/kl1ro/webnative#readme",
+	"bugs": {
+		"url": "https://github.com/kl1ro/webnative/issues"
+	},
   "devDependencies": {
     "@eslint/js": "^9.39.2",
     "@types/getos": "^3.0.4",
