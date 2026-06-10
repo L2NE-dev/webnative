@@ -8,6 +8,7 @@ import { cachePath } from "../../../utils/cache-path.js";
 import { getConfig } from "../../../utils/config.js";
 import { downloadLinuxNode } from "../../../utils/node.js";
 import findBackend from "../../../utils/backend.js";
+import { checkDocker } from "../../../utils/docker.js";
 
 const cwd = process.cwd();
 
@@ -21,7 +22,24 @@ const paths = {
   dist: join(cwd, "dist"),
 };
 
-export default async function buildLinuxAppImage() {
+export default function buildLinuxAppImage() {
+  switch (process.platform) {
+    case "win32":
+      return buildLinuxAppImageOnWindows();
+    default:
+      return buildLinuxAppImageOnLinux();
+  }
+}
+
+async function buildLinuxAppImageOnWindows() {
+  await checkDocker("linux");
+
+  return exec(
+    `docker run --rm -v "${cwd}:/app" -w /app node:20-slim npx @mindw1n/webnative@latest build linux`,
+  );
+}
+
+async function buildLinuxAppImageOnLinux() {
   await findBackend();
   await downloadAppImageTool(paths.appImageTool);
 
