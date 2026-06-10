@@ -33,10 +33,12 @@ const frontend = {
 	},
 }
 
+const backendSrc = './app/backend/index.ts';
+
 const backend = {
 	mode: 'production',
 	target: 'node',
-	entry: './app/backend/index.ts',
+	entry: backendSrc,
 	output: {
 		filename: 'index.js',
 		path: join(__dirname, 'app/backend/dist'),
