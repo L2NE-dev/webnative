@@ -6,7 +6,7 @@
     "build": "esbuild src/index.ts --bundle --platform=node --format=esm --target=es2020 --outfile=index.js --banner:js=\"#!/usr/bin/env node\" --minify"
   },
   "bin": {
-    "webnative": "./index.js"
+    "webnative": "index.js"
   },
   "files": [
     "LICENSE",
