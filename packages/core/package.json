@@ -30,8 +30,5 @@
 	],
 	"keywords": [],
 	"author": "",
-	"license": "MIT",
-	"dependencies": {
-		"@mindw1n/webnative-core": "^1.0.2"
-	}
+	"license": "MIT"
 }
