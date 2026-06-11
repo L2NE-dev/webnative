@@ -47,8 +47,13 @@ export async function buildSpecificPlatform(
   platform: SpecificPlatform,
   target: Target,
 ) {
+  ensurePlatform(platform);
   if (target == "all") return buildAllTargetsOfSpecificPlatform(platform);
   return buildSpecificTarget(platform, target);
+}
+
+function ensurePlatform(platform: SpecificPlatform) {
+  if (!builders[platform]) throw new Error(`Unknown platform ${platform}`);
 }
 
 export async function buildAllTargetsOfSpecificPlatform(
