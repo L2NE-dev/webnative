@@ -1,4 +1,4 @@
-import { readFile } from "node:fs/promises";
+import { readFile, writeFile } from "node:fs/promises";
 import {
   builders,
   getPlatformsDesc,
@@ -83,6 +83,7 @@ export async function buildSpecificTarget(
 
   if (!found)
     console.log("Backend not found, Node.js will not be in the output");
+  else await generateBackendPackageJson();
 
   console.log(`Building ${platform} ${target}...`);
   await build();
@@ -101,6 +102,15 @@ export async function buildFullstack(platform: SpecificPlatform) {
   await exec("npm run build", {
     env: { ...process.env, PLATFORM: platform },
   });
+}
+
+export async function generateBackendPackageJson() {
+  const packageObject = { type: "commonjs" };
+
+  await writeFile(
+    join(process.cwd(), "app/backend/dist/package.json"),
+    JSON.stringify(packageObject),
+  );
 }
 
 export async function buildAllPlatforms() {
