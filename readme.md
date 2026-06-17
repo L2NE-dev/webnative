@@ -47,7 +47,7 @@ webnative handles the switching — you just write your app.
 | Linux (self-contained) | ✅ v1 |
 | Windows (self-contained) | ✅ v2 |
 | Android | ✅ v3 |
-| Windows (setup) | 🔜 v4 |
+| Windows (setup) | ✅ v4 |
 | Linux (flatpak) | 🔜 v5 |
 | iOS | 🔜 v6 |
 | macOS | 🔜 v7 |
