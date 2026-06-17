@@ -49,7 +49,7 @@ async function buildLinuxAppImageOnLinux() {
   await mkdir(paths.dist, { recursive: true });
 
   await exec(
-    `${paths.appImageTool} ${paths.bin} -n ${paths.dist}/linux-appimage`,
+    `${paths.appImageTool} ${paths.bin} -n ${paths.dist}/linux.AppImage`,
   );
 
   await chmod(join(paths.dist, "linux-appimage"), 0o755);
