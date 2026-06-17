@@ -18,11 +18,9 @@
 
 ## v2 (status: implemented)
 - ✅ Windows and Linux self-contained targets
-- ✅ Dev environment: Linux only
-- No macOS/mobile *targets* in v2
 
 ## v3 (status: implemented)
-- ✅ Windows and Linux self-contained targets
 - ✅ Android apk target supported
-- ✅ Dev environment: Linux only
-- No macOS/mobile *targets* in v3
+
+## v4 (status: implemented)
+- ✅ Windows exe (setup) target supported
