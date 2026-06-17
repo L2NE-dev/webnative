@@ -1,5 +1,6 @@
 import buildAndroidApk from "./android/apk.js";
 import buildLinuxAppImage from "./linux/appimage.js";
+import buildWindowsExe from "./windows/exe.js";
 import buildWindowsZip from "./windows/zip.js";
 
 export const builders = {
@@ -8,6 +9,7 @@ export const builders = {
   },
   windows: {
     zip: buildWindowsZip,
+    exe: buildWindowsExe,
   },
   android: {
     apk: buildAndroidApk,
@@ -16,13 +18,14 @@ export const builders = {
 
 export function getPlatformsDesc() {
   return (
-    "Available platforms:\n" +
+    "Available targets:\n" +
     Object.entries(builders)
       .map(
         ([platform, targets]) =>
-          `  ${platform}, targets: ${Object.keys(targets).join(", ")}`,
+          `  ${platform}: ${Object.keys(targets).join(", ")}`,
       )
-      .join("\n")
+      .join("\n") +
+    "\n"
   );
 }
 
