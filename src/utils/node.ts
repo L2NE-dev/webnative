@@ -5,17 +5,20 @@ import { dirname } from "node:path";
 import { chmod, mkdir, rm } from "node:fs/promises";
 import { extractFileFromZip } from "./zip.js";
 
+export const NODE_LTS_VERSION = "v22.11.0";
+export const LINUX_NODE_URL = `https://nodejs.org/dist/${NODE_LTS_VERSION}/node-${NODE_LTS_VERSION}-linux-x64.tar.gz`;
+export const WINDOWS_NODE_URL = `https://nodejs.org/dist/${NODE_LTS_VERSION}/node-${NODE_LTS_VERSION}-win-x64.zip`;
+export const WINDOWS_NODE_SETUP_URL = `https://nodejs.org/dist/${NODE_LTS_VERSION}/node-${NODE_LTS_VERSION}-x64.msi`;
+
 export async function downloadLinuxNode(outputPath: string) {
   if (existsSync(outputPath)) return;
   console.log("Downloading Node.js...");
   await mkdir(dirname(outputPath), { recursive: true });
-  const version = "v22.0.0";
-  const url = `https://nodejs.org/dist/${version}/node-${version}-linux-x64.tar.gz`;
   const tarPath = outputPath + ".tar.gz";
-  await download(url, tarPath);
+  await download(LINUX_NODE_URL, tarPath);
 
   await exec(
-    `tar -xz -f ${tarPath} -C ${dirname(outputPath)} --strip-components=2 node-${version}-linux-x64/bin/node`,
+    `tar -xz -f ${tarPath} -C ${dirname(outputPath)} --strip-components=2 node-${NODE_LTS_VERSION}-linux-x64/bin/node`,
   );
 
   await rm(tarPath);
@@ -26,14 +29,12 @@ export async function downloadWindowsNode(outputPath: string) {
   if (existsSync(outputPath)) return;
   console.log("Downloading Node.js...");
   await mkdir(dirname(outputPath), { recursive: true });
-  const version = "v22.0.0";
-  const url = `https://nodejs.org/dist/${version}/node-${version}-win-x64.zip`;
   const zipPath = outputPath + ".zip";
-  await download(url, zipPath);
+  await download(WINDOWS_NODE_URL, zipPath);
 
   await extractFileFromZip(
     zipPath,
-    `node-${version}-win-x64/node.exe`,
+    `node-${NODE_LTS_VERSION}-win-x64/node.exe`,
     outputPath,
   );
 
