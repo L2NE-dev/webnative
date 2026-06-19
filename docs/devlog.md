@@ -5,7 +5,7 @@
 - Any backend can be used on desktop platforms, as long as it implements the webnative IPC interface
 - Mobile platforms can't support backend, so api abstraction layer is necessary.
 - The cli tool also should be able to create self-contained apps, but in this case the bundle size don't matter
-- Always try to build natively. If not possible, fall back to Docker. If Docker is not installed, xplain clearly why Docker is needed and how to install it manually.
+- Always try to build natively. If not possible, fall back to Docker. If Docker is not installed, explain clearly why Docker is needed and how to install it manually.
 
 ## ⏳ means that the feature is under development
 
